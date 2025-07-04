@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proplist.com - Find Your Dream Property</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        #chat-widget {
+            transition: all 0.3s ease;
+        }
+        #chat-widget:hover {
+            transform: scale(1.1);
+        }
+        #chat-container {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        #user-message:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        .chat-message {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .bot-message .bg-white {
+            border-top-left-radius: 0;
+        }
+        .user-message {
+            justify-content: flex-end;
+        }
+        .user-message .bg-blue-100 {
+            border-top-right-radius: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-blue-600">PROPLIST</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <a href="properties.html" class="text-gray-700 hover:text-blue-600">Properties</a>
+                    <a href="agents.html" class="text-gray-700 hover:text-blue-600">Agents</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600">Contact</a>
+                    <a href="login.html" class="text-gray-700 hover:text-blue-600">Login</a>
+                    <a href="register.html" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Register</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="mobile-menu-button">
+                        <i class="fas fa-bars text-gray-700 text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-blue-600 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Find Your Dream Property Today</h1>
+            <p class="text-xl mb-8">Browse thousands of properties for sale and rent across Malaysia</p>
+            
+            <!-- Search Form -->
+            <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <select class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                                <option value="">Property Type</option>
+                                <option value="condo">Condominium</option>
+                                <option value="house">Terrace House</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="villa">Villa</option>
+                                <option value="land">Land</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                                <option value="">Location</option>
+                                <option value="kl">Kuala Lumpur</option>
+                                <option value="pj">Petaling Jaya</option>
+                                <option value="subang">Subang Jaya</option>
+                                <option value="penang">Penang</option>
+                                <option value="johor">Johor Bahru</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                                <option value="">Price Range</option>
+                                <option value="0-500k">Below RM 500k</option>
+                                <option value="500k-1m">RM 500k - 1M</option>
+                                <option value="1m-2m">RM 1M - 2M</option>
+                                <option value="2m+">Above RM 2M</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-300">
+                                <i class="fas fa-search mr-2"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Properties -->
+    <div class="max-w-7xl mx-auto px-4 py-16">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-3xl font-bold text-gray-800">Featured Properties</h2>
+            <a href="properties.html" class="text-blue-600 hover:underline">View All</a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Property Card 1 -->
+            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Luxury Condo" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                    <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 1,250,000</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Luxury Condo with City View</h3>
+                    <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> KLCC, Kuala Lumpur</p>
+                    <div class="flex justify-between text-gray-700 mb-4">
+                        <span><i class="fas fa-bed text-blue-500 mr-1"></i> 3 Beds</span>
+                        <span><i class="fas fa-bath text-blue-500 mr-1"></i> 2 Baths</span>
+                        <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 1500 sqft</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Agent" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm">John Doe</span>
+                        </div>
+                        <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property Card 2 -->
+            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Terrace House" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Rent</div>
+                    <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 3,500/mo</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Modern Terrace House</h3>
+                    <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> SS15, Subang Jaya</p>
+                    <div class="flex justify-between text-gray-700 mb-4">
+                        <span><i class="fas fa-bed text-blue-500 mr-1"></i> 4 Beds</span>
+                        <span><i class="fas fa-bath text-blue-500 mr-1"></i> 3 Baths</span>
+                        <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 2200 sqft</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Agent" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm">Jane Smith</span>
+                        </div>
+                        <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property Card 3 -->
+            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Modern Apartment" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                    <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 850,000</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Modern Apartment with Pool</h3>
+                    <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Mont Kiara, Kuala Lumpur</p>
+                    <div class="flex justify-between text-gray-700 mb-4">
+                        <span><i class="fas fa-bed text-blue-500 mr-1"></i> 2 Beds</span>
+                        <span><i class="fas fa-bath text-blue-500 mr-1"></i> 2 Baths</span>
+                        <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 1100 sqft</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Agent" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm">Robert Johnson</span>
+                        </div>
+                        <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Types -->
+    <div class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Browse by Property Type</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <a href="properties.html?type=condo" class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                    <div class="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-building text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Condominium</h3>
+                    <p class="text-gray-600 text-sm">1,245 properties</p>
+                </a>
+                
+                <a href="properties.html?type=house" class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                    <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-home text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Terrace House</h3>
+                    <p class="text-gray-600 text-sm">892 properties</p>
+                </a>
+                
+                <a href="properties.html?type=apartment" class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                    <div class="bg-purple-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-city text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Apartment</h3>
+                    <p class="text-gray-600 text-sm">1,023 properties</p>
+                </a>
+                
+                <a href="properties.html?type=land" class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition duration-300">
+                    <div class="bg-yellow-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-vector-square text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">Land</h3>
+                    <p class="text-gray-600 text-sm">356 properties</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Locations -->
+    <div class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-center mb-12">Popular Locations</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="relative rounded-lg overflow-hidden h-64">
+                <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Kuala Lumpur" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <h3 class="text-2xl font-bold mb-2">Kuala Lumpur</h3>
+                        <p class="mb-4">1,892 properties</p>
+                        <a href="properties.html?location=kl" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300">Browse Properties</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative rounded-lg overflow-hidden h-64">
+                <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f06?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Penang" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <h3 class="text-2xl font-bold mb-2">Penang</h3>
+                        <p class="mb-4">1,245 properties</p>
+                        <a href="properties.html?location=penang" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300">Browse Properties</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative rounded-lg overflow-hidden h-64">
+                <img src="https://images.unsplash.com/photo-1572120360610-d971b9d7767c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Johor Bahru" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <h3 class="text-2xl font-bold mb-2">Johor Bahru</h3>
+                        <p class="mb-4">876 properties</p>
+                        <a href="properties.html?location=johor" class="inline-block bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white transition duration-300">Browse Properties</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Agents -->
+    <div class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800">Featured Agents</h2>
+                <a href="agents.html" class="text-blue-600 hover:underline">View All Agents</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Agent Card 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Smith" class="w-full h-48 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-white font-semibold">Jane Smith</h3>
+                            <p class="text-blue-300 text-sm">Prime Realty</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">4.5 (28 reviews)</span>
+                        </div>
+                        <div class="flex justify-between text-gray-700 mb-4">
+                            <span><i class="fas fa-home text-blue-500 mr-1"></i> 42 Properties</span>
+                            <span><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> KL</span>
+                        </div>
+                        <a href="agent-profile.html" class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300">View Profile</a>
+                    </div>
+                </div>
+                
+                <!-- Agent Card 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" class="w-full h-48 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-white font-semibold">John Doe</h3>
+                            <p class="text-blue-300 text-sm">Elite Properties</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">4.0 (15 reviews)</span>
+                        </div>
+                        <div class="flex justify-between text-gray-700 mb-4">
+                            <span><i class="fas fa-home text-blue-500 mr-1"></i> 36 Properties</span>
+                            <span><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Penang</span>
+                        </div>
+                        <a href="agent-profile.html" class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300">View Profile</a>
+                    </div>
+                </div>
+                
+                <!-- Agent Card 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sarah Johnson" class="w-full h-48 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-white font-semibold">Sarah Johnson</h3>
+                            <p class="text-blue-300 text-sm">Metro Homes</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">5.0 (42 reviews)</span>
+                        </div>
+                        <div class="flex justify-between text-gray-700 mb-4">
+                            <span><i class="fas fa-home text-blue-500 mr-1"></i> 58 Properties</span>
+                            <span><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> Johor</span>
+                        </div>
+                        <a href="agent-profile.html" class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300">View Profile</a>
+                    </div>
+                </div>
+                
+                <!-- Agent Card 4 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Robert Tan" class="w-full h-48 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-white font-semibold">Robert Tan</h3>
+                            <p class="text-blue-300 text-sm">Luxury Living</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">4.7 (33 reviews)</span>
+                        </div>
+                        <div class="flex justify-between text-gray-700 mb-4">
+                            <span><i class="fas fa-home text-blue-500 mr-1"></i> 27 Properties</span>
+                            <span><i class="fas fa-map-marker-alt text-blue-500 mr-1"></i> KL</span>
+                        </div>
+                        <a href="agent-profile.html" class="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-center mb-12">What Our Clients Say</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="flex items-center text-yellow-400 mr-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p class="text-gray-700 mb-6">"Found my dream home within a week of using Proplist. The agent was extremely helpful and professional throughout the entire process."</p>
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold">Amanda Lee</h4>
+                        <p class="text-gray-600 text-sm">Home Buyer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="flex items-center text-yellow-400 mr-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <p class="text-gray-700 mb-6">"As a landlord, Proplist helped me rent out my property quickly at a good price. The platform is easy to use and has great reach."</p>
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold">David Wong</h4>
+                        <p class="text-gray-600 text-sm">Property Owner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="flex items-center mb-4">
+                    <div class="flex items-center text-yellow-400 mr-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p class="text-gray-700 mb-6">"The most comprehensive property website in Malaysia. I appreciate the accurate listings and detailed information provided."</p>
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold">Sarah Chen</h4>
+                        <p class="text-gray-600 text-sm">Investor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="bg-blue-600 text-white py-16">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-3xl font-bold mb-6">Ready to Find Your Dream Property?</h2>
+            <p class="text-xl mb-8">Join thousands of happy customers who found their perfect home through Proplist</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="register.html" class="bg-white text-blue-600 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition duration-300">Sign Up Now</a>
+                <a href="contact.html" class="bg-transparent border-2 border-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-blue-600 transition duration-300">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Proplist</h3>
+                    <p class="text-gray-400">Malaysia's leading property portal, connecting buyers and renters with their dream homes and trusted agents.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="properties.html" class="text-gray-400 hover:text-white transition duration-300">Properties</a></li>
+                        <li><a href="agents.html" class="text-gray-400 hover:text-white transition duration-300">Agents</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Property Types</h4>
+                    <ul class="space-y-2">
+                        <li><a href="properties.html?type=condo" class="text-gray-400 hover:text-white transition duration-300">Condominium</a></li>
+                        <li><a href="properties.html?type=house" class="text-gray-400 hover:text-white transition duration-300">Terrace House</a></li>
+                        <li><a href="properties.html?type=apartment" class="text-gray-400 hover:text-white transition duration-300">Apartment</a></li>
+                        <li><a href="properties.html?type=villa" class="text-gray-400 hover:text-white transition duration-300">Villa</a></li>
+                        <li><a href="properties.html?type=land" class="text-gray-400 hover:text-white transition duration-300">Land</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            <span>Level 12, KL Tower, Kuala Lumpur</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3"></i>
+                            <span>+603 1234 5678</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span>info@proplist.com</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 Proplist.com. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="privacy.html" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                    <a href="terms.html" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+                    <a href="sitemap.html" class="text-gray-400 hover:text-white transition duration-300">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Property Details Page (hidden by default) -->
+    <div id="property-details" style="display: none;">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold">Luxury Condo with City View</h1>
+                    <p class="text-xl text-gray-600">KLCC, Kuala Lumpur</p>
+                </div>
+                <div class="bg-blue-600 text-white px-4 py-2 rounded-md text-lg font-semibold">RM 1,250,000</div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="lg:w-2/3">
+                    <!-- Property Gallery -->
+                    <div class="relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Property" class="w-full h-96 object-cover rounded-lg">
+                        <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                        <button class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100">
+                            <i class="far fa-heart text-xl text-gray-700"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Image Thumbnails -->
+                    <div class="grid grid-cols-4 gap-2 mb-8">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Property" class="h-24 object-cover rounded cursor-pointer hover:opacity-80">
+                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Property" class="h-24 object-cover rounded cursor-pointer hover:opacity-80">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Property" class="h-24 object-cover rounded cursor-pointer hover:opacity-80">
+                        <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Property" class="h-24 object-cover rounded cursor-pointer hover:opacity-80">
+                    </div>
+                    
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="flex space-x-8">
+                            <button onclick="openTab('details')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600">Details</button>
+                            <button onclick="openTab('features')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Features</button>
+                            <button onclick="openTab('location')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Location</button>
+                            <button onclick="openTab('agent')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">Agent</button>
+                        </nav>
+                    </div>
+                    
+                    <!-- Tab Content -->
+                    <div id="details" class="tab-content active">
+                        <h2 class="text-xl font-semibold mb-4">Property Description</h2>
+                        <p class="text-gray-700 mb-6">This luxurious 3-bedroom condominium offers breathtaking panoramic views of the Kuala Lumpur city skyline, including the iconic Petronas Twin Towers. The spacious 1,500 sqft unit features high-quality finishes, floor-to-ceiling windows, and an open-concept living area perfect for entertaining. The master bedroom includes a walk-in closet and en-suite bathroom with premium fixtures. The building offers world-class amenities including infinity pool, gym, 24-hour security, and concierge services.</p>
+                        
+                        <h2 class="text-xl font-semibold mb-4">Property Details</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <h3 class="font-semibold mb-2">Basic Information</h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex justify-between">
+                                        <span>Property Type:</span>
+                                        <span class="font-medium">Condominium</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Bedrooms:</span>
+                                        <span class="font-medium">3</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Bathrooms:</span>
+                                        <span class="font-medium">2</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Size:</span>
+                                        <span class="font-medium">1,500 sqft</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Furnishing:</span>
+                                        <span class="font-medium">Fully Furnished</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Additional Information</h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex justify-between">
+                                        <span>Floor Level:</span>
+                                        <span class="font-medium">28</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Total Floors:</span>
+                                        <span class="font-medium">45</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Year Built:</span>
+                                        <span class="font-medium">2018</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Parking:</span>
+                                        <span class="font-medium">2 Covered</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Maintenance Fee:</span>
+                                        <span class="font-medium">RM 0.35/sqft</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="features" class="tab-content">
+                        <h2 class="text-xl font-semibold mb-4">Features & Amenities</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-semibold mb-2">Property Features</h3>
+                                <ul class="space-y-2">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Air Conditioning</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Balcony</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Built-in Wardrobe</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Concierge</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Floor-to-Ceiling Windows</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Building Amenities</h3>
+                                <ul class="space-y-2">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Infinity Pool</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Fully Equipped Gym</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>24/7 Security</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>BBQ Area</span>
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        <span>Children's Playground</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="location" class="tab-content">
+                        <h2 class="text-xl font-semibold mb-4">Location</h2>
+                        <div class="mb-6">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.792581990107!2d101.71237631475785!3d3.158897997706722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc37d12d669c1f%3A0x9e3afdd17c8a9056!2sPetronas%20Twin%20Towers!5e0!3m2!1sen!2smy!4v1629876543210!5m2!1sen!2smy" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-lg"></iframe>
+                        </div>
+                        
+                        <h3 class="font-semibold mb-2">Nearby Amenities</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-1">Shopping</h4>
+                                <p class="text-sm text-gray-700">Suria KLCC - 5 min walk</p>
+                                <p class="text-sm text-gray-700">Pavilion Kuala Lumpur - 10 min drive</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-1">Transportation</h4>
+                                <p class="text-sm text-gray-700">KLCC LRT Station - 3 min walk</p>
+                                <p class="text-sm text-gray-700">KL Sentral - 15 min drive</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-1">Education</h4>
+                                <p class="text-sm text-gray-700">International School @ ParkCity - 8 min drive</p>
+                                <p class="text-sm text-gray-700">University of Kuala Lumpur - 12 min drive</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="agent" class="tab-content">
+                        <h2 class="text-xl font-semibold mb-4">Listing Agent</h2>
+                        <div class="bg-gray-100 p-6 rounded-lg flex flex-col md:flex-row items-center md:items-start gap-6">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Agent" class="w-24 h-24 rounded-full object-cover">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold">Jane Smith</h3>
+                                <p class="text-blue-600 mb-2">Prime Realty</p>
+                                
+                                <div class="flex items-center mb-4">
+                                    <div class="flex items-center text-yellow-400 mr-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="text-gray-700">4.5 (28 reviews)</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-phone-alt text-blue-600 mr-2"></i>
+                                        <span>+6012 345 6789</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-envelope text-blue-600 mr-2"></i>
+                                        <span>jane@primerealty.com</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-home text-blue-600 mr-2"></i>
+                                        <span>42 Properties</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>
+                                        <span>Kuala Lumpur</span>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-gray-700 mb-4">With over 8 years of experience in the KL property market, Jane specializes in luxury condominiums and commercial properties in the city center. Her in-depth knowledge and professional approach have helped hundreds of clients find their perfect property.</p>
+                                
+                                <div class="flex space-x-4">
+                                    <button class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300">Contact Agent</button>
+                                    <button class="border border-blue-600 text-blue-600 px-6 py-2 rounded-md hover:bg-blue-50 transition duration-300">View Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/3">
+                    <!-- Contact Form -->
+                    <div class="bg-white p-6 rounded-lg shadow-md sticky top-4">
+                        <h3 class="text-xl font-semibold mb-4">Contact Agent</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 mb-2">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="phone" class="block text-gray-700 mb-2">Phone</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="block text-gray-700 mb-2">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">I'm interested in this property (Luxury Condo with City View). Please contact me with more details.</textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300">Send Message</button>
+                        </form>
+                        
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <h4 class="font-semibold mb-2">Schedule a Viewing</h4>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <button class="border border-blue-600 text-blue-600 py-2 rounded-md hover:bg-blue-50 transition duration-300">Today</button>
+                                <button class="border border-blue-600 text-blue-600 py-2 rounded-md hover:bg-blue-50 transition duration-300">Tomorrow</button>
+                                <button class="border border-blue-600 text-blue-600 py-2 rounded-md hover:bg-blue-50 transition duration-300">This Week</button>
+                                <button class="border border-blue-600 text-blue-600 py-2 rounded-md hover:bg-blue-50 transition duration-300">Next Week</button>
+                            </div>
+                            <button class="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition duration-300">
+                                <i class="far fa-calendar-alt mr-2"></i> Select Date & Time
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mortgage Calculator -->
+                    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                        <h3 class="text-xl font-semibold mb-4">Mortgage Calculator</h3>
+                        <div class="mb-4">
+                            <label for="price" class="block text-gray-700 mb-2">Property Price (RM)</label>
+                            <input type="number" id="price" value="1250000" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="mb-4">
+                            <label for="downpayment" class="block text-gray-700 mb-2">Down Payment (%)</label>
+                            <input type="number" id="downpayment" value="10" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div class="mb-4">
+                            <label for="loan-term" class="block text-gray-700 mb-2">Loan Term (Years)</label>
+                            <select id="loan-term" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35" selected>35</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="interest-rate" class="block text-gray-700 mb-2">Interest Rate (%)</label>
+                            <input type="number" id="interest-rate" value="3.5" step="0.1" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 mb-4">Calculate</button>
+                        
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">Estimated Monthly Payment</h4>
+                            <p class="text-2xl font-bold text-blue-600">RM 4,876</p>
+                            <p class="text-sm text-gray-600 mt-2">* This is an estimate. Actual rates may vary.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Similar Properties -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-6">Similar Properties</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Similar Property 1 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Similar Property" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                            <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 980,000</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold mb-2">Modern Condo in KL Sentral</h3>
+                            <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> KL Sentral, Kuala Lumpur</p>
+                            <div class="flex justify-between text-gray-700 mb-4">
+                                <span><i class="fas fa-bed text-blue-500 mr-1"></i> 3 Beds</span>
+                                <span><i class="fas fa-bath text-blue-500 mr-1"></i> 2 Baths</span>
+                                <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 1450 sqft</span>
+                            </div>
+                            <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Similar Property 2 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Similar Property" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                            <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 1,150,000</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold mb-2">Luxury Penthouse with View</h3>
+                            <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Bukit Bintang, Kuala Lumpur</p>
+                            <div class="flex justify-between text-gray-700 mb-4">
+                                <span><i class="fas fa-bed text-blue-500 mr-1"></i> 4 Beds</span>
+                                <span><i class="fas fa-bath text-blue-500 mr-1"></i> 3 Baths</span>
+                                <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 2100 sqft</span>
+                            </div>
+                            <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Similar Property 3 -->
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Similar Property" class="w-full h-48 object-cover">
+                            <div class="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">For Sale</div>
+                            <div class="absolute bottom-4 left-4 bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">RM 1,450,000</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold mb-2">Executive Condo near KLCC</h3>
+                            <p class="text-gray-600 mb-4"><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Ampang, Kuala Lumpur</p>
+                            <div class="flex justify-between text-gray-700 mb-4">
+                                <span><i class="fas fa-bed text-blue-500 mr-1"></i> 3 Beds</span>
+                                <span><i class="fas fa-bath text-blue-500 mr-1"></i> 2 Baths</span>
+                                <span><i class="fas fa-vector-square text-blue-500 mr-1"></i> 1650 sqft</span>
+                            </div>
+                            <a href="property-details.html" class="text-blue-600 hover:underline">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Simple Overlay Chat Assistant -->
+    <div id="chatBox" style="position:fixed;bottom:20px;right:20px;width:320px;height:440px;border:1px solid #ccc;background:#fff;display:none;flex-direction:column;font-family:sans-serif;box-shadow:0 0 10px rgba(0,0,0,0.1);border-radius:8px;overflow:hidden;z-index:9999;">
+    <div style="background:#007bff;color:#fff;padding:10px;font-weight:bold;">
+        Chat Assistant
+        <span id="chatCloseBtn" style="float:right;cursor:pointer;">×</span>
+    </div>
+    <div id="chatMsgs" style="flex:1;overflow-y:auto;padding:10px;font-size:14px;"></div>
+    <input id="chatInput" placeholder="Type a message..." style="margin:10px;border:1px solid #ccc;border-radius:6px;padding:8px;width:calc(100% - 24px);" onkeypress="if(event.key==='Enter')sendChatMsg()">
+    </div>
+
+    <!-- Floating Open Button -->
+    <button id="chatOpenBtn" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#007bff;color:#fff;border:none;cursor:pointer;font-size:24px;z-index:9999;">💬</button>
+
+    <script>
+    // 🔹 Create or retrieve session ID
+    const chatBox = document.getElementById("chatBox");
+    const chatMsgs = document.getElementById("chatMsgs");
+    const chatInput = document.getElementById("chatInput");
+    const chatOpenBtn = document.getElementById("chatOpenBtn");
+    const chatCloseBtn = document.getElementById("chatCloseBtn");
+
+    // Attach event listeners for open/close
+    chatOpenBtn.addEventListener('click', function() {
+        chatBox.style.display = 'flex';
+    });
+    chatCloseBtn.addEventListener('click', function() {
+        chatBox.style.display = 'none';
+    });
+
+    let sessionId = localStorage.getItem('chat_session_id');
+    if (!sessionId) {
+        sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chat_session_id', sessionId);
+    }
+
+    const webhookURL = "https://rajigenzi.app.n8n.cloud/webhook-test/input";
+
+    function escapeHTML(str) {
+        return str.replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+        }[m])).replace(/\n/g, "<br>");
+    }
+
+    function parseBotReply(raw) {
+        try {
+        const data = JSON.parse(raw);
+        if (Array.isArray(data) && typeof data[0] === 'object') {
+            return escapeHTML(data[0].output || data[0].response || data[0].message || raw);
+        }
+        if (typeof data === 'object') {
+            return escapeHTML(data.output || data.response || data.message || raw);
+        }
+        } catch { return escapeHTML(raw); }
+        return escapeHTML(raw);
+    }
+
+    function appendMsg(sender, text) {
+        const align = sender === 'user' ? 'right' : 'left';
+        const bg = sender === 'user' ? '#007bff' : '#f1f1f1';
+        const color = sender === 'user' ? '#fff' : '#000';
+
+        chatMsgs.innerHTML += `<div style="text-align:${align};margin:6px 0;">
+        <span style="background:${bg};color:${color};padding:8px 12px;border-radius:12px;display:inline-block;max-width:80%;word-wrap:break-word;">
+            ${text}
+        </span>
+        </div>`;
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+
+    function sendChatMsg() {
+        const msg = chatInput.value.trim();
+        if (!msg) return;
+        appendMsg('user', escapeHTML(msg));
+        chatInput.value = '';
+
+        fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, session_id: sessionId })
+        })
+        .then(res => res.text())
+        .then(reply => appendMsg('bot', parseBotReply(reply)))
+        .catch(err => appendMsg('bot', `⚠️ Error: ${escapeHTML(err.message)}`));
+    }
+    </script>
+
+
+    
+    <script>
+        // Tab functionality for property details
+        function openTab(tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabButtons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('border-blue-500', 'text-blue-600');
+                tabButtons[i].classList.add('border-transparent', 'text-gray-500');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('border-blue-500', 'text-blue-600');
+            event.currentTarget.classList.remove('border-transparent', 'text-gray-500');
+        }
+        
+        // Mobile menu toggle (would need additional implementation)
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            // Would toggle a mobile menu here
+            console.log('Mobile menu clicked');
+        });
+    </script>
+</body>
+</html>
