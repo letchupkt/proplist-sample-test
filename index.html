@@ -968,6 +968,9 @@
     const chatOpenBtn = document.getElementById("chatOpenBtn");
     const chatCloseBtn = document.getElementById("chatCloseBtn");
 
+    // Manually declare agent id
+    const agentId = "3";
+
     // Attach event listeners for open/close
     chatOpenBtn.addEventListener('click', function() {
         chatBox.style.display = 'flex';
@@ -977,12 +980,12 @@
     });
 
     let sessionId = localStorage.getItem('chat_session_id');
-    if (!sessionId) {
+    if (!sessionId) { 
         sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('chat_session_id', sessionId);
     }
 
-    const webhookURL = "https://rajigenzi.app.n8n.cloud/webhook/input";
+    const webhookURL = "https://rajigenzi.app.n8n.cloud/webhook-test/input";
 
     function escapeHTML(str) {
         return str.replace(/[&<>"']/g, m => ({
@@ -1025,7 +1028,7 @@
         fetch(webhookURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, session_id: sessionId })
+        body: JSON.stringify({ message: msg, session_id: sessionId, agent_id: agentId })
         })
         .then(res => res.text())
         .then(reply => appendMsg('bot', parseBotReply(reply)))
