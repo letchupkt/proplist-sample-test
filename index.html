@@ -979,13 +979,10 @@
         chatBox.style.display = 'none';
     });
 
-    let sessionId = localStorage.getItem('chat_session_id');
-    if (!sessionId) { 
-        sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('chat_session_id', sessionId);
-    }
+    // Generate a dynamic session ID for this chat session (not stored in localStorage)
+    let sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
 
-    const webhookURL = "https://rajigenzi.app.n8n.cloud/webhook-test/input";
+    const webhookURL = "https://rajigenzi.app.n8n.cloud/webhook/input";
 
     function escapeHTML(str) {
         return str.replace(/[&<>"']/g, m => ({
